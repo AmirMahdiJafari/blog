@@ -1,0 +1,29 @@
+
+
+
+<head>
+    {% load static %}
+    <!-- Prism CSS -->
+    <link href='{% static "include/registershape" %}' rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+
+<div class="container">
+
+{% block content %}
+    <br>
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button style="background-color:palevioletred; color:black" class="btn btn-outline-info" type="submit">Sign Up</button>
+    </form>
+
+    If you already have an account <a href="/login" target="blank"><strong>login</strong></a> instead.
+
+{% endblock %}
+
+</div>
+<script src='{% static "tinymce/js/prism.js" %}'></script>

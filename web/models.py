@@ -6,5 +6,5 @@ class Tutorial(models.Model):
     Date_Published = models.DateTimeField()
     Contant = HTMLField()
 
-    def __unicode__(self):
+    def __str__ (self):
         return self.Tittle

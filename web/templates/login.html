@@ -1,0 +1,22 @@
+<head>
+    {% load static %}
+    <!-- Prism CSS -->
+    <link href='{% static "tinymce/css/prism.css" %}' rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+
+
+{% block content %}
+
+    <div class="container">
+        <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+            <button style="background-color:palevioletred; color: black;" class="btn btn-outline-info" type="submit">Login</button>
+        </form>
+        Don't have an account? <a href="/register" target="blank"><strong>register here</strong></a>!
+    </div>
+{% endblock %}
