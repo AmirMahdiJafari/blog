@@ -12,8 +12,8 @@ def single_slug(request , single_slug):
     categories = [c.slug for c in TutorialCategory.objects.all()]
     if single_slug in categories :
         matching_series =TutorialSeries.objects.all().filter(Category__slug=single_slug)
-        series_urls = {}
 
+        series_urls = {}
         for m in matching_series.all():
             part_one = Tutorial.objects.filter(Tutorial_Series__Series=m.Series).earliest("Date_Published")
             series_urls[m] = part_one.Tutorial_slug
@@ -25,12 +25,21 @@ def single_slug(request , single_slug):
 
     tutorials = [t.Tutorial_slug for  t in Tutorial.objects.all()]
     if single_slug in tutorials :
-        return HttpResponse(f'hey {single_slug} is a tutorial !!! ')
+        this_tutorial = Tutorial.objects.get(Tutorial_slug = single_slug)
+        tutorials_from_series = Tutorial.objects.filter(Tutorial_Series__Series=this_tutorial.Tutorial_Series).order_by('Date_Published')
+        this_tutorial_idx = list(tutorials_from_series).index(this_tutorial)
 
 
-    
+        return render(request = request,
+                    template_name='tutorial.html',
+                    context = {"tutorial":this_tutorial,
+                    "sidebar":tutorials_from_series,
+                    "this_tutorial_index":this_tutorial_idx})
+                    
     return HttpResponse('sorry boddy there is no such category!!!')
     
+
+
 
 def page(request):
     return render(request = request,
