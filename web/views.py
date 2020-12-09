@@ -1,18 +1,41 @@
 from django.shortcuts import render, redirect
-from .models import Tutorial
+from .models import Tutorial, TutorialCategory, TutorialSeries
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout, authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
+from django.http import HttpResponse
 
 
 # Create your views here.
+def single_slug(request , single_slug):
+    categories = [c.slug for c in TutorialCategory.objects.all()]
+    if single_slug in categories :
+        matching_series =TutorialSeries.objects.all().filter(Category__slug=single_slug)
+        series_urls = {}
 
+        for m in matching_series.all():
+            part_one = Tutorial.objects.filter(Tutorial_Series__Series=m.Series).earliest("Date_Published")
+            series_urls[m] = part_one.Tutorial_slug
+
+        return render(request=request,
+                      template_name='categorys.html',
+                      context={"Series": matching_series, "part_ones": series_urls})
+
+
+    tutorials = [t.Tutorial_slug for  t in Tutorial.objects.all()]
+    if single_slug in tutorials :
+        return HttpResponse(f'hey {single_slug} is a tutorial !!! ')
+
+
+    
+    return HttpResponse('sorry boddy there is no such category!!!')
+    
 
 def page(request):
     return render(request = request,
-                  template_name='home.html',
-                  context = {"Tutorial":Tutorial.objects.all})
+                  template_name='Category.html',
+                  context = {"categories":TutorialCategory.objects.all})
 
 
 @csrf_exempt

@@ -1,0 +1,43 @@
+<head>
+    {% load static %}
+    <link href='{% static "tinymce/css/prism.css" %}' rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<body>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="/" class="brand-logo">Tutorials</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        {% include 'include/navbaritems.html' %}
+      </ul>
+    </div>
+  </nav>
+{% include 'include/messages.html' %}
+
+{% block content %}
+
+    <div class="row">
+        {% for tut, partone in part_ones.items %}
+
+            <div class="col s12 m6 l4">
+                <a href="{{partone}}", style="color:#000">
+                    <div class="card hoverable">
+                        <div class="card-content">
+                            <div class="card-title">{{tut.Series}}</div>
+                            <!--<p style="font-size:70%">Published {{tut.tutorial_published}}</p>-->
+                            <p>{{tut.Summery}}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+  </body>
+
+
+
+<script src='{% static "tinymce/js/prism.js" %}'></script>
+
